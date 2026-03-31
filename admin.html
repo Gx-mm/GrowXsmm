@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GrowX Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{margin:0;font-family:Poppins;background:linear-gradient(180deg,#000814,#001d3d);color:white;}
+.header{text-align:center;padding:18px;font-size:24px;color:#FFD700;text-shadow:0 0 15px #FFD700;}
+.tabs{display:flex;gap:10px;padding:10px;overflow:auto;}
+.tab{flex:1;padding:10px;text-align:center;border-radius:12px;cursor:pointer;background:rgba(255,255,255,0.08);}
+.tab.active{background:#FFD700;color:black;box-shadow:0 0 20px #FFD700;}
+.section{display:none;padding:15px;}
+.show{display:block;}
+.card{background:rgba(255,255,255,0.05);padding:15px;margin-bottom:15px;border-radius:15px;}
+input,select{width:100%;padding:10px;margin:5px 0;border-radius:10px;border:none;background:#111;color:#fff;}
+button{margin-top:5px;padding:8px;border:none;border-radius:10px;cursor:pointer;}
+.green{background:#00ff9c;color:black;}
+.red{background:#ff4d4d;}
+.yellow{background:#FFD700;color:black;}
+.popup{position:fixed;top:0;left:0;width:100%;height:100%;display:none;background:#0008;justify-content:center;align-items:center;}
+.popup-box{background:#111;padding:20px;border-radius:10px;}
+</style>
+</head>
+
+<body>
+
+<div class="header">🚀 GrowX Admin Panel</div>
+
+<div class="tabs">
+<div class="tab active" onclick="openTab('dashboard',this)">Dashboard</div>
+<div class="tab" onclick="openTab('orders',this)">Orders</div>
+<div class="tab" onclick="openTab('payments',this)">Payments</div>
+<div class="tab" onclick="openTab('users',this)">Users</div>
+<div class="tab" onclick="openTab('service',this)">Services</div>
+</div>
+
+<div id="dashboard" class="section show">
+<div class="card">Orders: <span id="totalOrders"></span></div>
+<div class="card">Users: <span id="totalUsers"></span></div>
+</div>
+
+<div id="orders" class="section"></div>
+<div id="payments" class="section"></div>
+<div id="users" class="section"></div>
+
+<div id="service" class="section">
+<button class="yellow" onclick="toggleAdd()">+ Add Service</button>
+
+
+
+<div id="addBox" style="display:none" class="card">
+<input id="scat" placeholder="Category">
+<input id="sname" placeholder="Service Name">
+<input id="sprice" placeholder="Price">
+<input id="sqty" placeholder="MINQTY">
+  <!--Tab to edit-->
+<input id="smq"placeholder="MAXQTY"
+<button onclick="addService()">Add</button>
+</div>
+
+<div id="serviceList"></div>
+</div>
+
+<div id="popup" class="popup">
+<div class="popup-box">
+<h3>Delete?</h3>
+<button class="red" onclick="confirmDelete()">Delete</button>
+<button onclick="closePopup()">Cancel</button>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const supabaseClient = window.supabase.createClient(
+"https://sgabwjdydpdhjhzgncmq.supabase.co",
+"sb_publishable_uGNWbH6gSVTBbTRotRGXQQ_a7n_mtzb"
+);
+
+let deleteID=null;
+
+/* TAB */
+function openTab(id,el){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("show"));
+document.getElementById(id).classList.add("show");
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+el.classList.add("active");
+
+if(id==="dashboard") loadDashboard();
+if(id==="orders") loadOrders();
+if(id==="payments") loadPayments();
+if(id==="users") loadUsers();
+if(id==="service") loadServices();
+}
+
+/* DASHBOARD */
+async function loadDashboard(){
+let {data:o}=await supabaseClient.from("ORDER").select("*");
+let {data:u}=await supabaseClient.from("USER").select("*");
+totalOrders.innerText=o.length;
+totalUsers.innerText=u.length;
+}
+
+/* ORDERS */
+async function loadOrders(){
+let {data}=await supabaseClient.from("ORDER").select("*");
+
+orders.innerHTML=data.map(o=>`
+<div class="card">
+<b>${o.ORDERID} - ${o.USERID}</b>
+
+<input id="cat-${o.ORDERID}" value="${o.CATEGORY||""}">
+<input id="ser-${o.ORDERID}" value="${o.SERVICE||""}">
+<input id="qty-${o.ORDERID}" value="${o.QUANTITY||""}">
+<input id="price-${o.ORDERID}" value="${o.PRICE||""}">
+<input id="status-${o.ORDERID}" value="${o.STATUS||""}">
+<input id="link-${o.ORDERID}" value="${o.LINK||""}">
+
+<button class="green" onclick="updateOrder('${o.ORDERID}')">Save</button>
+</div>`).join("");
+}
+
+async function updateOrder(id){
+await supabaseClient.from("ORDER").update({
+CATEGORY:val("cat",id),
+SERVICE:val("ser",id),
+QUANTITY:val("qty",id),
+PRICE:val("price",id),
+STATUS:val("status",id),
+LINK:val("link",id)
+}).eq("ORDERID",id);
+}
+
+/* PAYMENTS */
+async function loadPayments(){
+let {data}=await supabaseClient.from("PAYMENT").select("*");
+
+payments.innerHTML=data.map(p=>`
+<div class="card">
+<b>${p.PAYMENTID} - ${p.USERID}</b>
+
+<div>₹${p.AMOUNT}</div>
+
+<select id="ps-${p.PAYMENTID}">
+<option ${p.STATUS=="Pending"?"selected":""}>Pending</option>
+<option ${p.STATUS=="Approved"?"selected":""}>Approved</option>
+<option ${p.STATUS=="Rejected"?"selected":""}>Rejected</option>
+</select>
+
+<button onclick="updatePayment('${p.PAYMENTID}','${p.USERID}',${p.AMOUNT})">Update</button>
+</div>`).join("");
+}
+
+async function updatePayment(id,uid,amount){
+let status=document.getElementById("ps-"+id).value;
+await supabaseClient.from("PAYMENT").update({STATUS:status}).eq("PAYMENTID",id);
+
+if(status==="Approved"){
+let {data:user}=await supabaseClient.from("USER").select("*").eq("USERID",uid).single();
+await supabaseClient.from("USER").update({
+BALANCE:parseFloat(user.BALANCE)+parseFloat(amount)
+}).eq("USERID",uid);
+}
+}
+
+/* USERS */
+async function loadUsers(){
+let {data}=await supabaseClient.from("USER").select("*");
+
+users.innerHTML=data.map(u=>`
+<div class="card">
+<b>${u.USERID}</b>
+
+<input id="name-${u.USERID}" value="${u.USERNAME}">
+<input id="gmail-${u.USERID}" value="${u.GMAIL}">
+<input id="contact-${u.USERID}" value="${u.CONTACT}">
+<input id="pass-${u.USERID}" value="${u.PASSWORD}">
+<input id="bal-${u.USERID}" value="${u.BALANCE}">
+
+<button onclick="updateUser('${u.USERID}')">Save</button>
+</div>`).join("");
+}
+
+async function updateUser(id){
+await supabaseClient.from("USER").update({
+USERNAME:val("name",id),
+GMAIL:val("gmail",id),
+CONTACT:val("contact",id),
+PASSWORD:val("pass",id),
+BALANCE:val("bal",id)
+}).eq("USERID",id);
+}
+
+/* SERVICE ID AUTO */
+async function generateServiceID(){
+let {data}=await supabaseClient.from("SERVICE").select("SERVICEID");
+let max=0;
+data.forEach(s=>{
+let n=parseInt(s.SERVICEID.replace("S",""))||0;
+if(n>max) max=n;
+});
+return "S"+(max+1);
+}
+
+/* ADD */
+function toggleAdd(){
+let box = document.getElementById("addBox");
+
+if(box.style.display === "none" || box.style.display === ""){
+box.style.display = "block";
+}else{
+box.style.display = "none";
+}
+}
+
+async function addService(){
+let id=await generateServiceID();
+await supabaseClient.from("SERVICE").insert([{
+SERVICEID:id,
+CATEGORY:scat.value,
+SERVICENAME:sname.value,
+PRICEPER1000:sprice.value,
+STATUS:"Active"
+}]);
+loadServices();
+}
+
+/* LOAD SERVICES */
+async function loadServices(){
+let {data}=await supabaseClient.from("SERVICE").select("*");
+
+serviceList.innerHTML=data.map(s=>`
+<div class="card">
+<b>${s.SERVICEID}</b>
+
+<input id="sn-${s.SERVICEID}" value="${s.SERVICENAME}">
+<input id="sp-${s.SERVICEID}" value="${s.PRICEPER1000}">
+
+<button class="green" onclick="updateService('${s.SERVICEID}')">Save</button>
+<button class="red" onclick="deleteService('${s.SERVICEID}')">Delete</button>
+</div>`).join("");
+}
+
+async function updateService(id){
+await supabaseClient.from("SERVICE").update({
+SERVICENAME:val("sn",id),
+PRICEPER1000:val("sp",id)
+}).eq("SERVICEID",id);
+}
+
+/* DELETE */
+function deleteService(id){
+deleteID=id;
+popup.style.display="flex";
+}
+
+function closePopup(){
+popup.style.display="none";
+}
+
+async function confirmDelete(){
+await supabaseClient.from("SERVICE").delete().eq("SERVICEID",deleteID);
+closePopup();
+loadServices();
+}
+
+/* HELP */
+function val(p,id){
+return document.getElementById(p+"-"+id).value;
+}
+
+/* INIT */
+loadDashboard();
+
+</script>
+
+
+
+</body>
+</html>
