@@ -10,12 +10,22 @@
     { "src": "/setting", "dest": "/setting.html" },
     { "src": "/privacy", "dest": "/privacy.html" },
     { "src": "/terms", "dest": "/terms.html" },
-
-    { "src": "/1", "dest": "/123.html1" },
     { "src": "/n2", "dest": "/n2.html" },
     { "src": "/o", "dest": "/o.html" },
-
     { "src": "/error", "dest": "/error.html" },
+
+    // 🔥 Redirect all .html → clean URL
+    { "src": "/home.html", "status": 301, "headers": { "Location": "/home" } },
+    { "src": "/login.html", "status": 301, "headers": { "Location": "/login" } },
+    { "src": "/customer.html", "status": 301, "headers": { "Location": "/customer" } },
+    { "src": "/addfund.html", "status": 301, "headers": { "Location": "/addfund" } },
+    { "src": "/history.html", "status": 301, "headers": { "Location": "/history" } },
+    { "src": "/setting.html", "status": 301, "headers": { "Location": "/setting" } },
+    { "src": "/privacy.html", "status": 301, "headers": { "Location": "/privacy" } },
+    { "src": "/terms.html", "status": 301, "headers": { "Location": "/terms" } },
+    { "src": "/n2.html", "status": 301, "headers": { "Location": "/n2" } },
+    { "src": "/o.html", "status": 301, "headers": { "Location": "/o" } },
+    { "src": "/error.html", "status": 301, "headers": { "Location": "/error" } },
 
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/error.html" }
