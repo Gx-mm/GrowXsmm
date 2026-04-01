@@ -15,6 +15,7 @@
     { "src": "/error", "dest": "/error.html" },
 
     // 🔥 Redirect all .html → clean URL
+    
     { "src": "/home.html", "status": 301, "headers": { "Location": "/home" } },
     { "src": "/login.html", "status": 301, "headers": { "Location": "/login" } },
     { "src": "/customer.html", "status": 301, "headers": { "Location": "/customer" } },
