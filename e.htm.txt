@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowX • Offer Expired</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+radial-gradient(circle at 20% 20%,#1c2b4a,transparent 40%),
+radial-gradient(circle at 80% 0%,#0b1b38,transparent 40%),
+linear-gradient(180deg,#020617,#050b1a);
+color:white;
+overflow:hidden;
+}
+
+/* 3D container */
+.scene{
+perspective:1000px;
+}
+
+/* 3D card */
+.box{
+width:350px;
+padding:40px;
+border-radius:25px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,215,0,.4);
+box-shadow:0 0 40px rgba(255,215,0,.3);
+text-align:center;
+transform-style:preserve-3d;
+animation:float 6s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float{
+0%{transform:rotateY(0deg) translateY(0px);}
+50%{transform:rotateY(10deg) translateY(-20px);}
+100%{transform:rotateY(0deg) translateY(0px);}
+}
+
+h1{
+color:#FFD700;
+margin-bottom:10px;
+font-size:26px;
+}
+
+p{
+font-size:14px;
+color:#ddd;
+margin-bottom:20px;
+line-height:1.5;
+}
+
+.btn{
+display:block;
+padding:12px;
+border-radius:30px;
+margin:10px 0;
+text-decoration:none;
+background:linear-gradient(135deg,#FFD700,#FFB800);
+color:black;
+font-weight:600;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #FFD700;
+}
+
+.insta{
+font-size:13px;
+margin-top:10px;
+color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+<div class="box">
+
+<h1>⚠️ Offer Expired</h1>
+
+<p>
+Ye offer sirf limited time ke liye tha 😔<br>
+Ab ye available nahi hai
+jab ye aayega aapko Hamare New  Whatsapp Channel ya Instagram page par Information mil jayegi <br>
+<p>
+📢 Latest updates ke liye hamara WhatsApp channel join kare 👇
+</p>
+
+<a class="btn" href="https://whatsapp.com/channel/0029VbCBclKEgGfGSs1CEg0U">
+Join WhatsApp Channel
+</a>
+
+<div class="insta">
+📸 Instagram: @growxsmm
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
