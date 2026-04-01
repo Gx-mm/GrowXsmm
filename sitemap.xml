@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://growxsmm.vercel.app/</loc>
-    <priority>1.0</priority>
-  </url>
+
+  <url><loc>https://growxsmm.vercel.app/</loc></url>
+  <url><loc>https://growxsmm.vercel.app/index.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/home.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/admin.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/customer.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/addfund.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/history.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/setting.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/privacy.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/terms.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/123.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/n2.html</loc></url>
+  <url><loc>https://growxsmm.vercel.app/o.html</loc></url>
+
 </urlset>
