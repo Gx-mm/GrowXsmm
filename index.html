@@ -296,6 +296,62 @@ margin:0 6px;
 @keyframes spin2{100%{transform:rotate(360deg);}}
 @keyframes load{0%{width:0%;}50%{width:100%;}100%{width:0%;}}
 
+  .trust-line{
+  margin:20px 0 30px;
+  padding:16px 18px;
+  border-radius:20px;
+  text-align:center;
+  font-size:13px;
+  line-height:1.6;
+  color:#fff;
+
+  background:linear-gradient(135deg, rgba(255,215,0,0.12), rgba(255,255,255,0.05));
+  backdrop-filter:blur(15px);
+
+  border:1px solid rgba(255,215,0,0.3);
+  box-shadow:0 0 20px rgba(255,215,0,0.15);
+
+  position:relative;
+  overflow:hidden;
+  transition:all 0.3s ease;
+}
+
+/* ✨ Shine animation */
+.trust-line::before{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:200%;
+  background:linear-gradient(120deg, transparent, rgba(255,215,0,0.4), transparent);
+  top:-50%;
+  left:-50%;
+  animation:shine 4s linear infinite;
+}
+
+/* 🔄 Animation */
+@keyframes shine{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+/* 📝 Text */
+.trust-line p{
+  position:relative;
+  z-index:2;
+  margin-bottom:8px;
+}
+
+/* 🌐 Hindi text */
+.trust-line .hindi{
+  color:#ddd;
+  font-size:12px;
+}
+
+/* 🔥 Hover effect */
+.trust-line:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 30px rgba(255,215,0,0.3);
+  }
 </style>
 </head>
 
@@ -342,6 +398,10 @@ document.body.appendChild(p);
 <div class="hero">
 <h1>Grow Your <span>Instagram Faster</span> 🚀</h1>
 <p>Get real followers, likes & views instantly at cheapest price</p>
+  <div class="trust-line">
+  <p>–  I know it is not possible to trust first time but you should try withStart with small deposits and small orders. Try once, and we will earn your trust again and again.</p>
+  <p class="hindi">– मुझे पता है कि पहली बार में भरोसा करना संभव नहीं है लेकिन आप छोटे डिपॉज़िट और छोटे ऑर्डर से शुरुआत करें। आप एक बार भरोसा करें, हम बार-बार आपका भरोसा जीतेंगे।</p>
+  </div>
 <div class="cta">
 <button class="btn" onclick="go('login.html')">Start Now</button>
 </div>
