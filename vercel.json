@@ -1,0 +1,49 @@
+{
+  "routes": [
+
+    { "src": "^/$", "dest": "/index.html" },
+
+    { "src": "^/home$", "dest": "/home.html" },
+    { "src": "^/login$", "dest": "/login.html" },
+    { "src": "^/customer$", "dest": "/customer.html" },
+    { "src": "^/addfund$", "dest": "/addfund.html" },
+    { "src": "^/history$", "dest": "/history.html" },
+    { "src": "^/setting$", "dest": "/setting.html" },
+    { "src": "^/privacy$", "dest": "/privacy.html" },
+    { "src": "^/terms$", "dest": "/terms.html" },
+    { "src": "^/wallet$", "dest": "/wallet.html" },
+
+    { "src": "^/gpay$", "dest": "/gpay.html" },
+    { "src": "^/phonepe$", "dest": "/phonepe.html" },
+    { "src": "^/airtel$", "dest": "/airtel.html" },
+    { "src": "^/fampay$", "dest": "/fampay.html" },
+
+    { "src": "^/n2$", "dest": "/n2.html" },
+    { "src": "^/o$", "dest": "/o.html" },
+
+    { "src": "^/error$", "dest": "/error.html" },
+
+    { "src": "^/home\\.html$", "status": 301, "headers": { "Location": "/home" } },
+    { "src": "^/login\\.html$", "status": 301, "headers": { "Location": "/login" } },
+    { "src": "^/customer\\.html$", "status": 301, "headers": { "Location": "/customer" } },
+    { "src": "^/addfund\\.html$", "status": 301, "headers": { "Location": "/addfund" } },
+    { "src": "^/history\\.html$", "status": 301, "headers": { "Location": "/history" } },
+    { "src": "^/setting\\.html$", "status": 301, "headers": { "Location": "/setting" } },
+    { "src": "^/privacy\\.html$", "status": 301, "headers": { "Location": "/privacy" } },
+    { "src": "^/terms\\.html$", "status": 301, "headers": { "Location": "/terms" } },
+    { "src": "^/wallet\\.html$", "status": 301, "headers": { "Location": "/wallet" } },
+
+    { "src": "^/gpay\\.html$", "status": 301, "headers": { "Location": "/gpay" } },
+    { "src": "^/phonepe\\.html$", "status": 301, "headers": { "Location": "/phonepe" } },
+    { "src": "^/airtel\\.html$", "status": 301, "headers": { "Location": "/airtel" } },
+    { "src": "^/fampay\\.html$", "status": 301, "headers": { "Location": "/fampay" } },
+
+    { "src": "^/n2\\.html$", "status": 301, "headers": { "Location": "/n2" } },
+    { "src": "^/o\\.html$", "status": 301, "headers": { "Location": "/o" } },
+    { "src": "^/error\\.html$", "status": 301, "headers": { "Location": "/error" } },
+
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/error.html" }
+
+  ]
+}
