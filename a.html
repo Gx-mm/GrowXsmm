@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowX Add Funds</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+
+body{
+background: radial-gradient(circle at top,#0b1d3a,#020814);
+color:white;
+display:flex;
+justify-content:center;
+padding:20px;
+}
+
+.container{width:100%;max-width:420px;}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.title{font-size:22px;font-weight:600;}
+.balance{opacity:.8;}
+
+/* 🔥 TOP TRUST */
+.trust-top{
+background:#0f172a;
+padding:12px;
+border-radius:12px;
+margin-bottom:15px;
+font-size:13px;
+text-align:center;
+border:1px solid rgba(0,255,200,.3);
+color:#00ffcc;
+}
+
+/* CARD */
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+border-radius:22px;
+padding:25px;
+margin-bottom:25px;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* QR */
+.qr{text-align:center;margin-bottom:20px;}
+
+.qr-box{
+background:white;
+padding:15px;
+border-radius:15px;
+display:inline-block;
+}
+
+.qr img{
+width:170px;
+}
+
+.copy-btn{
+background:linear-gradient(45deg,#ffd54f,#ff9800);
+border:none;
+padding:8px 16px;
+border-radius:20px;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* TRUST BADGES */
+.badges{
+margin-top:12px;
+font-size:13px;
+opacity:.9;
+}
+
+/* INPUT */
+.input{
+width:100%;
+padding:14px;
+margin-top:12px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(0,0,0,0.4);
+color:white;
+outline:none;
+}
+
+.input:focus{
+border:1px solid #00ffcc;
+box-shadow:0 0 10px #00ffcc;
+}
+
+/* BUTTON */
+.submit{
+width:100%;
+margin-top:15px;
+padding:15px;
+border:none;
+border-radius:40px;
+font-size:16px;
+font-weight:600;
+background:linear-gradient(45deg,#ffd54f,#ff9800);
+cursor:pointer;
+transition:.3s;
+}
+
+.submit:hover{
+transform:scale(1.05);
+}
+
+/* SUPPORT */
+.support{
+margin-top:15px;
+font-size:13px;
+text-align:center;
+opacity:.8;
+}
+
+/* TABLE */
+.table-wrap{
+overflow-x:auto;
+margin-top:15px;
+}
+
+table{
+width:100%;
+min-width:380px;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.pending{color:#ffc107;}
+.approved{color:#00ff9c;}
+.rejected{color:#ff4d4d;}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.6);
+z-index:999;
+}
+
+.hidden{display:none;}
+
+.popup-card{
+background:#111;
+padding:30px;
+border-radius:20px;
+text-align:center;
+}
+
+.success{color:#00ff9c;}
+.error{color:#ff4d4d;}
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<!-- 🔥 TRUST LINE -->
+<div class="trust-top">
+अगर आपको पेमेंट करने में या पेमेंट करने के बाद भी आपका पेमेंट approve नहीं हुआ तो आप हमारे कस्टमर सपोर्ट से हेल्प ले सकते हैं आपको पैसा कही नहीं जायेगा (T&C Apply)
+</div>
+
+<div class="header">
+<div class="title">Add Funds Grow<span style="color:#f1c40f;">X</span></div>
+<div class="balance">₹<span id="balance">0</span></div>
+</div>
+
+<div class="card">
+
+<div class="qr">
+<h2>Scan & Pay</h2>
+
+<div class="qr-box">
+<img src="qr.png">
+</div>
+
+<p><strong>UPI:</strong> ravikishanm90@fam</p>
+
+<button class="copy-btn" onclick="copyUpi()">Copy UPI</button>
+
+<div class="badges">
+✔ Secure Payment <br>
+✔ Fast Approval <br>
+✔ Support Available
+</div>
+
+</div>
+
+<input id="amount" class="input" placeholder="Enter amount (min ₹50)">
+<input id="utr" class="input" placeholder="Enter UTR / Transaction ID">
+
+<button class="submit" onclick="payUPI()">💳 Pay via UPI App</button>
+<button id="submitBtn" class="submit" onclick="submitPayment()">Submit Payment</button>
+
+<div class="support">
+Payment issue? WhatsApp: <b>7800534153</b>
+</div>
+
+</div>
+
+<div class="card">
+<h2>Payment History</h2>
+
+<div class="table-wrap">
+<table id="paymentTable">
+<tr>
+<th>Amount</th>
+<th>UTR</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</table>
+</div>
+</div>
+
+</div>
+
+<div id="popup" class="popup hidden">
+<div class="popup-card">
+<div id="popupIcon"></div>
+<div id="popupText"></div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const supabaseClient = window.supabase.createClient(
+"https://sgabwjdydpdhjhzgncmq.supabase.co",
+"sb_publishable_uGNWbH6gSVTBbTRotRGXQQ_a7n_mtzb"
+);
+
+const userID = localStorage.getItem("userID");
+
+if(!userID){ location.href="index.html"; }
+
+async function loadBalance(){
+let { data } = await supabaseClient
+.from("USER")
+.select("BALANCE")
+.eq("USERID", userID)
+.single();
+
+if(data) document.getElementById("balance").innerText = data.BALANCE;
+}
+
+loadBalance();
+
+function copyUpi(){
+navigator.clipboard.writeText("ravikishanm90@fam");
+showPopup("UPI Copied","success");
+}
+
+function showPopup(msg,type){
+const popup=document.getElementById("popup");
+const text=document.getElementById("popupText");
+
+text.innerText=msg;
+popup.classList.remove("hidden");
+
+setTimeout(()=>popup.classList.add("hidden"),2000);
+}
+
+function payUPI(){
+let amount=document.getElementById("amount").value.trim();
+if(!amount){showPopup("Enter amount","error");return;}
+window.location.href=`upi://pay?pa=ravikishanm90@fam&pn=GrowX&am=${amount}&cu=INR`;
+}
+
+async function submitPayment(){
+
+const btn=document.getElementById("submitBtn");
+
+let amount=document.getElementById("amount").value.trim();
+let utr=document.getElementById("utr").value.trim();
+
+if(!amount||!utr){showPopup("Fill all fields","error");return;}
+if(Number(amount)<50){showPopup("Minimum ₹50","error");return;}
+
+let { data:check } = await supabaseClient
+.from("PAYMENT")
+.select("*")
+.eq("UTR", utr);
+
+if(check.length>0){showPopup("Duplicate UTR","error");return;}
+
+btn.disabled=true;
+btn.innerText="Processing...";
+
+await supabaseClient.from("PAYMENT").insert([{
+USERID:userID,
+AMOUNT:amount,
+UTR:utr,
+STATUS:"Pending",
+DATE:new Date()
+}]);
+
+showPopup("Payment Submitted","success");
+
+setTimeout(()=>location.reload(),1500);
+}
+
+async function loadPayments(){
+
+let { data } = await supabaseClient
+.from("PAYMENT")
+.select("*")
+.eq("USERID", userID)
+.order("DATE",{ascending:false});
+
+const table=document.getElementById("paymentTable");
+
+data.forEach(p=>{
+table.innerHTML+=`
+<tr>
+<td>₹${p.AMOUNT}</td>
+<td>${p.UTR}</td>
+<td class="${p.STATUS.toLowerCase()}">${p.STATUS}</td>
+<td>${new Date(p.DATE).toLocaleString()}</td>
+</tr>`;
+});
+}
+
+loadPayments();
+
+</script>
+
+</body>
+  </html>
