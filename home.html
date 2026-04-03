@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowX Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body {background: linear-gradient(135deg, #020617, #020617, #020617, #0a0f2c);color: white;overflow-x: hidden;}
+body::before {
+content:"";position:fixed;width:200%;height:200%;
+background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+background-size:50px 50px;animation:moveParticles 20s linear infinite;z-index:-1;}
+@keyframes moveParticles {0%{transform:translate(0,0);}100%{transform:translate(-50px,-50px);}}
+
+.header {display:flex;justify-content:space-between;padding:20px;align-items:center;}
+.logo {font-size:22px;font-weight:700;}
+.logo span {color:gold;}
+
+.glass {
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+border-radius:25px;
+padding:20px;
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s;
+position:relative;
+margin:15px;
+}
+
+.hero {
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 0 20px rgba(0,162,255,0.4);
+animation:glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {from{box-shadow:0 0 10px #00a2ff;}to{box-shadow:0 0 30px #00a2ff;}}
+
+.balance {font-size:28px;font-weight:700;margin-top:10px;}
+.wallet-img {width:80px;filter:drop-shadow(0 0 10px gold);}
+
+.grid {display:grid;grid-template-columns:repeat(3,1fr);gap:0px;padding:0px;}
+.card {text-align:center;position:relative;cursor:pointer;}
+.card:hover {transform:scale(1.05);}
+.purple {box-shadow:0 0 25px #8b5cf6;}
+.green {box-shadow:0 0 25px #22c55e;}
+.orange {box-shadow:0 0 20px #f97316;}
+.card small {color:#aaa;}
+.arrow {position:absolute;bottom:10px;right:10px;}
+
+.stats {display:flex;justify-content:space-between;align-items:center;}
+.badge {background:#22c55e;padding:5px 10px;border-radius:20px;font-size:12px;}
+
+.title {margin:20px;font-size:18px;}
+
+.buy {
+margin-top:10px;
+padding:10px 18px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#ffcc33,#ff6600);
+color:black;
+cursor:pointer;
+box-shadow:0 0 10px gold;
+}
+
+.footer {
+text-align:center;
+margin:30px 0;
+opacity:0.6;
+font-size:13px;
+}
+
+</style>
+
+<script>
+if(!localStorage.getItem("userID")){
+  window.location.href = "index.html";
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">Grow<span>X</span></div>
+  <div>
+    <span onclick="location.href='n2.html'" style="cursor:pointer;">🔔</span>
+    <span onclick="location.href='setting.html'" style="cursor:pointer;">⚙️</span>
+  </div>
+</div>
+
+<div class="glass hero">
+  <div>
+    <h2 id="welcome">Welcome 👋</h2>
+    <p>User ID: <span id="userid"></span> ✅ Verified</p>
+    <div class="balance" id="balance">₹0</div>
+    <small>Available Balance</small>
+  </div>
+  <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" class="wallet-img">
+</div>
+
+<!-- CARDS -->
+<div class="grid">
+  <div class="glass card purple" onclick="location.href='wallet.html'">
+    💼
+    <h4>Wallet</h4>
+    <small>Add & Manage Funds</small>
+    <div class="arrow">→</div>
+  </div>
+
+  <div class="glass card green" onclick="location.href='o.html'">
+    🛒
+    <h4>New Order</h4>
+    <small>Place a New Order</small>
+    <div class="arrow">→</div>
+  </div>
+
+  <div class="glass card orange" onclick="location.href='history.html'">
+    📋
+    <h4>Order History</h4>
+    <small>View Order History</small>
+    <div class="arrow">→</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="glass stats">
+  <div>📊 9999+ Total Orders</div>
+  <div>
+    <div class="badge">+28.5%</div>
+    <small>This Month</small>
+  </div>
+</div>
+
+<!-- 🔥 OFFERS -->
+<div class="glass">
+  <h3>🔥 Offers</h3>
+  <p>🎁 Add ₹500 get ₹50 bonus</p>
+  <p>⚡ Instant order delivery</p>
+  <p>🚀 High quality real engagement</p>
+</div>
+
+<!-- 🔥 SERVICES -->
+<div class="title">Our Popular Services</div>
+
+<div class="glass">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="40">
+  <h3>Instagram</h3>
+  <p>100K Reel Views – ₹9 ONLY</p>
+  <button class="buy" onclick="location.href='o.html'">Buy Now</button>
+</div>
+
+<div class="glass">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="40">
+  <h3>Instagram</h3>
+  <p>10K Followers – ₹60 ONLY</p>
+  <button class="buy" onclick="location.href='o.html'">Buy Now</button>
+</div>
+
+<div class="glass">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="40">
+  <h3>Instagram</h3>
+  <p>10K Likes – ₹80 ONLY</p>
+  <button class="buy" onclick="location.href='o.html'">Buy Now</button>
+</div>
+
+<div class="glass">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="40">
+  <h3>Instagram</h3>
+  <p>10K Story Views – ₹49 ONLY</p>
+  <button class="buy" onclick="location.href='o.html'">Buy Now</button>
+</div>
+
+<!-- 🔥 FOLLOW -->
+<div class="glass" style="text-align:center;">
+  <p>Join & Follow on Instagram:</p>
+  <h3 style="color:gold;">@growxsmm</h3>
+</div>
+
+<div class="footer">
+  © 2026 GrowX • Secure Platform 🚀
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+"https://sgabwjdydpdhjhzgncmq.supabase.co",
+"sb_publishable_uGNWbH6gSVTBbTRotRGXQQ_a7n_mtzb"
+);
+
+const userID = localStorage.getItem("userID");
+
+async function loadUser(){
+  let { data } = await supabaseClient
+  .from("USER")
+  .select("*")
+  .eq("USERID", userID)
+  .single();
+
+  if(data){
+    document.getElementById("welcome").innerText = "Welcome " + data.USERNAME + " 👋";
+    document.getElementById("userid").innerText = data.USERID;
+    document.getElementById("balance").innerText = "₹" + parseFloat(data.BALANCE).toFixed(3);
+  }
+}
+loadUser();
+</script>
+
+</body>
+</html>
