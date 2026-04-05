@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowX Payments</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+
+body{
+background:linear-gradient(135deg,#020814,#0b1d3a);
+color:white;
+padding:20px;
+display:flex;
+justify-content:center;
+}
+
+.container{width:100%;max-width:420px;}
+
+/* HEADER */
+.header{
+font-size:26px;
+font-weight:700;
+text-align:center;
+margin-bottom:15px;
+}
+
+.header span{
+color:#ffd700;
+}
+
+/* TITLE */
+.title{
+font-size:20px;
+margin-bottom:15px;
+text-align:center;
+}
+
+/* CARDS */
+.card{
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+padding:18px;
+margin-bottom:15px;
+cursor:pointer;
+transition:.3s;
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.08);
+text-align:center;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+/* COLORS */
+.gpay{box-shadow:0 0 25px #3b82f6;}
+.phonepe{box-shadow:0 0 25px #a855f7;}
+.airtel{box-shadow:0 0 25px red;red:#F00}
+.fampay{box-shadow:0 0 25px gold;color:#ffd700}
+
+/* TEXT */
+.name{
+font-size:16px;
+font-weight:600;
+}
+
+/* HISTORY */
+.history{
+margin-top:25px;
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+padding:15px;
+backdrop-filter:blur(20px);
+overflow-x:auto;
+}
+
+table{
+width:100%;
+min-width:650px;
+font-size:12px;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:center;
+}
+
+/* STATUS COLORS */
+.pending{color:orange;}
+.approved{color:#00ff9c;}
+.rejected{color:#ff4d4d;}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- GROWX HEADER -->
+<div class="header">
+Grow<span>X</span>
+</div>
+
+<div class="title">💳 Select Payment Method</div>
+
+<!-- METHODS -->
+<div class="card gpay" onclick="go('gpay.html','GooglePay')">
+<div class="name">Google Pay (5% Cashback On Add  ₹100)  </div>
+</div>
+
+<div class="card phonepe" onclick="go('phonepe.html','PhonePe')">
+<div class="name">PhonePe (10% Cashback on Adding ₹150)</div>
+</div>
+
+<div class="card airtel" onclick="go('airtel.html','Airtel')">
+<div class="name"> Airtel Pay  </div>
+</div>
+
+<div class="card fampay" onclick="go('fampay.html','FamPay')">
+<div class="name">FamPay (5%  Cashback On adding Every ₹60)</div>
+
+  
+</div>
+<!-- HISTORY -->
+<div class="history">
+<h3>Payment History</h3>
+
+<table id="table">
+<tr>
+<th>ID</th>
+<th>User</th>
+<th>Method</th>
+<th>Amount</th>
+<th>UTR</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</table>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* SUPABASE */
+const supabaseClient = window.supabase.createClient(
+"https://sgabwjdydpdhjhzgncmq.supabase.co",
+"sb_publishable_uGNWbH6gSVTBbTRotRGXQQ_a7n_mtzb"
+);
+
+const userID = localStorage.getItem("userID");
+
+/* METHOD SELECT */
+function go(page,method){
+localStorage.setItem("PAYMENT_METHOD",method);
+window.location.href=page;
+}
+
+/* LOAD HISTORY */
+async function load(){
+
+let {data}=await supabaseClient
+.from("PAYMENT")
+.select("*")
+.eq("USERID",userID)
+.order("DATE",{ascending:false});
+
+if(!data) return;
+
+data.forEach(p=>{
+document.getElementById("table").innerHTML+=`
+<tr>
+<td>${p.PAYMENTID || "-"}</td>
+<td>${p.USERID}</td>
+<td>${p.METHOD || "-"}</td>
+<td>₹${p.AMOUNT}</td>
+<td>${p.UTR}</td>
+<td class="${p.STATUS.toLowerCase()}">${p.STATUS}</td>
+<td>${new Date(p.DATE).toLocaleString()}</td>
+</tr>
+`;
+});
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>
